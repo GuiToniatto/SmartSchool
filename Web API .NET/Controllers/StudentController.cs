@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Web_API_.NET.Data;
 using Web_API_.NET.Models;
 
 namespace Web_API_.NET.Controllers
@@ -9,24 +11,23 @@ namespace Web_API_.NET.Controllers
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
-        public List<Student> Students = new List<Student>() {
-            new Student() { Id = 1, Name = "John", Lastname = "Wick", PhoneNumber = "(11) 1111-1111" },
-            new Student() { Id = 2, Name = "Mary", Lastname = "Jane", PhoneNumber = "(22) 2222-2222" },
-            new Student() { Id = 3, Name = "Mike", Lastname = "Tyson", PhoneNumber = "(33) 3333-3333" },
-        };
+        private readonly SmartSchoolContext _context;
 
-        public StudentController() { }
+        public StudentController(SmartSchoolContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Students);
+            return Ok(_context.Students);
         }
 
         [HttpGet("byId")]
         public IActionResult GetById(int id)
         {
-            var student = Students.FirstOrDefault(x => x.Id == id);
+            var student = _context.Students.FirstOrDefault(x => x.Id == id);
 
             if (student == null) {
                 return NotFound("Aluno não encontrado");
@@ -43,7 +44,7 @@ namespace Web_API_.NET.Controllers
             }
 
             name = char.ToUpperInvariant(name[0]) + name.Substring(1);
-            var student = Students.FirstOrDefault(x => x.Name.Contains(name));
+            var student = _context.Students.FirstOrDefault(x => x.Name.Contains(name));
 
             return Ok(student);
         }
@@ -51,7 +52,8 @@ namespace Web_API_.NET.Controllers
         [HttpPost]
         public IActionResult Post(Student student)
         {
-            Students.Add(student);
+            _context.Students.Add(student);
+            _context.SaveChanges();
 
             return Ok(student);
         }
@@ -59,29 +61,29 @@ namespace Web_API_.NET.Controllers
         [HttpPut("{id:int}")]
         public IActionResult Put(Student student, int id)
         {
-            var studentToUpdate = Students.FirstOrDefault(x => x.Id == id);
+            Student studentToUpdate = _context.Students.AsNoTracking().FirstOrDefault(x => x.Id == id);
 
             if (studentToUpdate == null) {
                 return NotFound("Aluno não encontrado");
             }
+            
+            _context.Update(student);
+            _context.SaveChanges();
 
-            studentToUpdate.Name = student.Name;
-            studentToUpdate.Lastname = student.Lastname;
-            studentToUpdate.PhoneNumber = student.PhoneNumber;
-
-            return Ok(studentToUpdate);
+            return Ok(student);
         }
 
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var studentToDelete = Students.FirstOrDefault(x => x.Id == id);
+            var studentToDelete = _context.Students.FirstOrDefault(x => x.Id == id);
             
             if (studentToDelete == null) {
                 return NotFound("Aluno não encontrado");
             }
 
-            Students.Remove(studentToDelete);
+            _context.Remove(studentToDelete);
+            _context.SaveChanges();
 
             return Ok("Aluno removido com sucesso");
         }
