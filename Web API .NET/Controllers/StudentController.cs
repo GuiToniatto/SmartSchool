@@ -11,23 +11,23 @@ namespace Web_API_.NET.Controllers
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
-        private readonly SmartSchoolContext _context;
+        private readonly IRepository _repository;
 
-        public StudentController(SmartSchoolContext context)
+        public StudentController(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Students);
+            return Ok(_repository.FindAll<Student>());
         }
 
         [HttpGet("byId")]
         public IActionResult GetById(int id)
         {
-            var student = _context.Students.FirstOrDefault(x => x.Id == id);
+            var student = _repository.FindById<Student>(id);
 
             if (student == null) {
                 return NotFound("Aluno não encontrado");
@@ -36,15 +36,34 @@ namespace Web_API_.NET.Controllers
             return Ok(student);
         }
 
+        [HttpGet("bySubjectId")]
+        public IActionResult GetBySubjectId(int subjectId, bool includeTeacher)
+        {
+            if (subjectId <= 0) {
+                return BadRequest("Id inválido");
+            }
+            
+            var students = _repository.GetAllStudentsWithSubject(subjectId, includeTeacher);
+
+            if (students == null) {
+                return NotFound("Alunos não encontrados");
+            }
+
+            return Ok(students);
+        }
+
         [HttpGet("{name}")]
         public IActionResult GetByName(string name)
         {
             if (name == null) {
                 return BadRequest("Nome não informado");
             }
+            
+            var student = _repository.FindByName<Student>(name);
 
-            name = char.ToUpperInvariant(name[0]) + name.Substring(1);
-            var student = _context.Students.FirstOrDefault(x => x.Name.Contains(name));
+            if (student == null) {
+                return NotFound("Aluno não encontrado");
+            }
 
             return Ok(student);
         }
@@ -52,40 +71,37 @@ namespace Web_API_.NET.Controllers
         [HttpPost]
         public IActionResult Post(Student student)
         {
-            _context.Students.Add(student);
-            _context.SaveChanges();
+            var result = _repository.Add(student);
 
-            return Ok(student);
+            if (result) {
+                return Ok(student);
+            }
+
+            return BadRequest("Erro ao cadastrar aluno");
         }
 
         [HttpPut("{id:int}")]
         public IActionResult Put(Student student, int id)
         {
-            Student studentToUpdate = _context.Students.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var result = _repository.Update(student, id);
 
-            if (studentToUpdate == null) {
-                return NotFound("Aluno não encontrado");
+            if (result) {
+                return Ok(student);
             }
-            
-            _context.Update(student);
-            _context.SaveChanges();
 
-            return Ok(student);
+            return BadRequest("Erro ao atualizar aluno");
         }
 
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var studentToDelete = _context.Students.FirstOrDefault(x => x.Id == id);
-            
-            if (studentToDelete == null) {
-                return NotFound("Aluno não encontrado");
+            var result = _repository.Delete<Student>(id);
+
+            if (result) {
+                return Ok("Aluno removido com sucesso");
             }
 
-            _context.Remove(studentToDelete);
-            _context.SaveChanges();
-
-            return Ok("Aluno removido com sucesso");
+            return BadRequest("Erro ao remover aluno");
         }
     }
 }

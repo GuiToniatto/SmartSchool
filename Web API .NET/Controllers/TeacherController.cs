@@ -10,28 +10,40 @@ namespace Web_API_.NET.Controllers
     [Route("api/[controller]")]
     public class TeacherController : ControllerBase
     {
-        private readonly SmartSchoolContext _context;
-        public TeacherController(SmartSchoolContext context)
+        private readonly IRepository _repository;
+        public TeacherController(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
         
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Teachers);
+            return Ok(_repository.FindAll<Teacher>());
         }
 
         [HttpGet("byId")]
         public IActionResult GetById(int id)
         {
-            var teacher = _context.Teachers.FirstOrDefault(x => x.Id == id);
+            var teacher = _repository.FindById<Teacher>(id);
 
             if (teacher == null) {
                 return NotFound("Professor não encontrado");
             }
 
             return Ok(teacher);
+        }
+
+        [HttpGet("bySubjectId")]
+        public IActionResult GetBySubjectId(int subjectId, bool includeStudent)
+        {
+            var teachers = _repository.GetAllTeachersWithSubject(subjectId, includeStudent);
+
+            if (teachers == null) {
+                return NotFound("Professor não encontrado");
+            }
+
+            return Ok(teachers);
         }
 
         [HttpGet("{name}")]
@@ -41,8 +53,7 @@ namespace Web_API_.NET.Controllers
                 return BadRequest("Nome não informado");
             }
 
-            name = char.ToUpperInvariant(name[0]) + name.Substring(1);
-            var teacher = _context.Teachers.FirstOrDefault(x => x.Name.Contains(name));
+            var teacher = _repository.FindByName<Teacher>(name);
 
             return Ok(teacher);
         }
@@ -50,40 +61,37 @@ namespace Web_API_.NET.Controllers
         [HttpPost]
         public IActionResult Post(Teacher teacher)
         {
-            _context.Teachers.Add(teacher);
-            _context.SaveChanges();
+            var result = _repository.Add(teacher);
 
-            return Ok(teacher);
+            if (result) {
+                return Ok(teacher);
+            }
+
+            return BadRequest("Erro ao cadastrar professor");
         }
 
         [HttpPut("{id:int}")]
         public IActionResult Put(Teacher teacher, int id)
         {
-            Teacher teacherToUpdate = _context.Teachers.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var result = _repository.Update(teacher, id);
 
-            if (teacherToUpdate == null) {
-                return NotFound("Professor não encontrado");
+            if (result) {
+                return Ok(teacher);
             }
-            
-            _context.Update(teacher);
-            _context.SaveChanges();
 
-            return Ok(teacher);
+            return BadRequest("Erro ao atualizar professor");
         }
 
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var teacherToDelete = _context.Teachers.FirstOrDefault(x => x.Id == id);
-            
-            if (teacherToDelete == null) {
-                return NotFound("Professor não encontrado");
+            var result = _repository.Delete<Teacher>(id);
+
+            if (result) {
+                return Ok("Professor removido com sucesso");
             }
 
-            _context.Remove(teacherToDelete);
-            _context.SaveChanges();
-
-            return Ok("Professor removido com sucesso");
+            return BadRequest("Erro ao remover professor");
         }
     }
 }

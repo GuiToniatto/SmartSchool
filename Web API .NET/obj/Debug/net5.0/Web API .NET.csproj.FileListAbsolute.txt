@@ -65,3 +65,7 @@ C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Deb
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\MySqlConnector.dll
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
