@@ -3,12 +3,18 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Web_API_.NET</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Web API .NET.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10"/>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="5.0.10"/>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" version="5.0.3"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" version="5.0.10" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" version="5.0.3" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" version="5.0.0" />
   </ItemGroup>
 </Project>

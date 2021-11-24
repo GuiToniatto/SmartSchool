@@ -1,15 +1,17 @@
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web_API_.NET.Data;
-using Web_API_.NET.Dtos;
 using Web_API_.NET.Models;
+using Web_API_.NET.V1.Dtos;
 
-namespace Web_API_.NET.Controllers
+namespace Web_API_.NET.V1.Controllers
 {
+    /// <summary>
+    /// Versão 1 do Controller de Professores
+    /// </summary>
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     public class TeacherController : ControllerBase
     {

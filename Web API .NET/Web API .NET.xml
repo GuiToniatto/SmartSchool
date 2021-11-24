@@ -1,0 +1,449 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web API .NET</name>
+    </assembly>
+    <members>
+        <member name="T:Web_API_.NET.V1.Controllers.StudentController">
+            <summary>
+            Versão 1 do Controller de Alunos
+            </summary>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.#ctor(Web_API_.NET.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Get">
+            <summary>
+            Método responsável por retornar todos os alunos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.GetById(System.Int32)">
+            <summary>
+            Método responsável por retornar um aluno específico
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.GetBySubjectId(System.Int32,System.Boolean)">
+            <summary>
+            Método responsável por retornar todos os alunos e suas disciplinas, incluindo o professor que a leciona 
+            </summary>
+            <param name="subjectId"></param>
+            <param name="includeTeacher"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.GetByName(System.String)">
+            <summary>
+            Método responsável por retornar alunos que possuam o nome informado
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Post(Web_API_.NET.V1.Dtos.RegisterStudentDto)">
+            <summary>
+            Método Responsável por criar um novo aluno
+            </summary>
+            <param name="studentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Put(Web_API_.NET.V1.Dtos.RegisterStudentDto,System.Int32)">
+            <summary>
+            Método responsável por atualizar um aluno via PUT
+            </summary>
+            <param name="studentDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Patch(Web_API_.NET.V1.Dtos.RegisterStudentDto,System.Int32)">
+            <summary>
+            Método responsável por atualizar um aluno via PATCH
+            </summary>
+            <param name="studentDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Delete(System.Int32)">
+            <summary>
+            Método responsável por remover um aluno
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web_API_.NET.V1.Controllers.TeacherController">
+            <summary>
+            Versão 1 do Controller de Professores
+            </summary>
+        </member>
+        <member name="T:Web_API_.NET.V1.Dtos.RegisterStudentDto">
+            <summary>
+            Classe para criação do objeto de aluno
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.Id">
+            <summary>
+            Identificador do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.Register">
+            <summary>
+            Registro Academico
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.Name">
+            <summary>
+            Primeiro nome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.Lastname">
+            <summary>
+            Sobrenome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.PhoneNumber">
+            <summary>
+            Telefone de contato
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.BirthDate">
+            <summary>
+            Data de nascimento
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.StartDate">
+            <summary>
+            Date de ínicio das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.EndDate">
+            <summary>
+            Data de término das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterStudentDto.Active">
+            <summary>
+            Se professor se encontrar ativo ou não
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Web_API_.NET.V1.Dtos.RegisterTeacherDto">
+            <summary>
+            Classe DTO para registro de professor
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.Id">
+            <summary>
+            Identificador do professor
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.Register">
+            <summary>
+            Registro na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.Name">
+            <summary>
+            Primeiro nome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.Lastname">
+            <summary>
+            Sobrenome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.PhoneNumber">
+            <summary>
+            Telefone de contato
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.BirthDate">
+            <summary>
+            Data de nascimento
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.StartDate">
+            <summary>
+            Date de ínicio das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.EndDate">
+            <summary>
+            Data de término das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.RegisterTeacherDto.Active">
+            <summary>
+            Se professor se encontrar ativo ou não
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Web_API_.NET.V1.Dtos.StudentDto">
+            <summary>
+            Classe DTO para o objeto de Student
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.Id">
+            <summary>
+            Identificador do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.Registration">
+            <summary>
+            Registro Academico do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.Name">
+            <summary>
+            Nome Completo do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.PhoneNumber">
+            <summary>
+            Telefone do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.Age">
+            <summary>
+            Idade do aluno calculado a partir da data de nascimento
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.StartDate">
+            <summary>
+            Data de início do curso
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.StudentDto.Active">
+            <summary>
+            Se o usuário se encontra ativo ou não
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Web_API_.NET.V1.Dtos.TeacherDto">
+            <summary>
+            Classe DTO para o objeto Teacher
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.Id">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.Register">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.Name">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.PhoneNumber">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.Age">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.StartDate">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V1.Dtos.TeacherDto.Active">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Web_API_.NET.V2.Controllers.StudentController">
+            <summary>
+            Versão 2 para o Controller de Alunos
+            </summary>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.#ctor(Web_API_.NET.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            
+            </summary>
+            <param name="repository"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.Get">
+            <summary>
+            Método responsável por retornar todos os alunos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.Post(Web_API_.NET.V1.Dtos.RegisterStudentDto)">
+            <summary>
+            Método Responsável por criar um novo aluno
+            </summary>
+            <param name="studentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.Put(Web_API_.NET.V1.Dtos.RegisterStudentDto,System.Int32)">
+            <summary>
+            Método responsável por atualizar um aluno via PUT
+            </summary>
+            <param name="studentDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.Patch(Web_API_.NET.V1.Dtos.RegisterStudentDto,System.Int32)">
+            <summary>
+            Método responsável por atualizar um aluno via PATCH
+            </summary>
+            <param name="studentDto"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API_.NET.V2.Controllers.StudentController.Delete(System.Int32)">
+            <summary>
+            Método responsável por remover um aluno
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web_API_.NET.V2.Dtos.RegisterStudentDto">
+            <summary>
+            Classe para criação do objeto de aluno
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.Id">
+            <summary>
+            Identificador do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.Register">
+            <summary>
+            Registro Academico
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.Name">
+            <summary>
+            Primeiro nome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.Lastname">
+            <summary>
+            Sobrenome
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.PhoneNumber">
+            <summary>
+            Telefone de contato
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.BirthDate">
+            <summary>
+            Data de nascimento
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.StartDate">
+            <summary>
+            Date de ínicio das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.EndDate">
+            <summary>
+            Data de término das atividades na instituição
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.RegisterStudentDto.Active">
+            <summary>
+            Se professor se encontrar ativo ou não
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Web_API_.NET.V2.Dtos.StudentDto">
+            <summary>
+            Classe DTO para o objeto de Student
+            </summary>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.Id">
+            <summary>
+            Identificador do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.Registration">
+            <summary>
+            Registro Academico do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.Name">
+            <summary>
+            Nome Completo do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.PhoneNumber">
+            <summary>
+            Telefone do aluno
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.Age">
+            <summary>
+            Idade do aluno calculado a partir da data de nascimento
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.StartDate">
+            <summary>
+            Data de início do curso
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Web_API_.NET.V2.Dtos.StudentDto.Active">
+            <summary>
+            Se o usuário se encontra ativo ou não
+            </summary>
+            <value></value>
+        </member>
+    </members>
+</doc>

@@ -1,27 +1,38 @@
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web_API_.NET.Data;
-using Web_API_.NET.Dtos;
 using Web_API_.NET.Models;
+using Web_API_.NET.V1.Dtos;
 
-namespace Web_API_.NET.Controllers
+namespace Web_API_.NET.V1.Controllers
 {
+    /// <summary>
+    /// Versão 1 do Controller de Alunos
+    /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class StudentController : ControllerBase
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="mapper"></param>
         public StudentController(IRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Método responsável por retornar todos os alunos
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -30,6 +41,11 @@ namespace Web_API_.NET.Controllers
             return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
         }
 
+        /// <summary>
+        /// Método responsável por retornar um aluno específico
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("byId")]
         public IActionResult GetById(int id)
         {
@@ -44,6 +60,12 @@ namespace Web_API_.NET.Controllers
             return Ok(alunoDto);
         }
 
+        /// <summary>
+        /// Método responsável por retornar todos os alunos e suas disciplinas, incluindo o professor que a leciona 
+        /// </summary>
+        /// <param name="subjectId"></param>
+        /// <param name="includeTeacher"></param>
+        /// <returns></returns>
         [HttpGet("bySubjectId")]
         public IActionResult GetBySubjectId(int subjectId, bool includeTeacher)
         {
@@ -60,6 +82,11 @@ namespace Web_API_.NET.Controllers
             return Ok(students);
         }
 
+        /// <summary>
+        /// Método responsável por retornar alunos que possuam o nome informado
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet("{name}")]
         public IActionResult GetByName(string name)
         {
@@ -76,6 +103,11 @@ namespace Web_API_.NET.Controllers
             return Ok(_mapper.Map<TeacherDto>(student));
         }
 
+        /// <summary>
+        /// Método Responsável por criar um novo aluno
+        /// </summary>
+        /// <param name="studentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post(RegisterStudentDto studentDto)
         {
@@ -90,7 +122,13 @@ namespace Web_API_.NET.Controllers
             return BadRequest("Erro ao cadastrar aluno");
         }
 
-        [HttpPut("{id>int}")]
+        /// <summary>
+        /// Método responsável por atualizar um aluno via PUT
+        /// </summary>
+        /// <param name="studentDto"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id:int}")]
         public IActionResult Put(RegisterStudentDto studentDto, int id)
         {
             var student = _repository.FindById<Student>(id);
@@ -109,8 +147,14 @@ namespace Web_API_.NET.Controllers
             return BadRequest("Erro ao atualizar aluno");
         }
 
+        /// <summary>
+        /// Método responsável por atualizar um aluno via PATCH
+        /// </summary>
+        /// <param name="studentDto"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPatch("{id:int}")]
-        public IActionResult Patch(StudentDto studentDto, int id)
+        public IActionResult Patch(RegisterStudentDto studentDto, int id)
         {
             var student = _repository.FindById<Student>(id);
             if (student == null) {
@@ -128,6 +172,11 @@ namespace Web_API_.NET.Controllers
             return BadRequest("Erro ao atualizar aluno");
         }
 
+        /// <summary>
+        /// Método responsável por remover um aluno
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
