@@ -28,15 +28,11 @@ namespace Web_API_.NET.Data
         
         public bool Update<T>(T entity, int id) where T : class
         {
-            var studentToUpdate = FindById<T>(id);
+            _context.Update(entity);
 
-            if (studentToUpdate != null) {
-                _context.Update(entity);
-
-                if (SaveChanges())
-                {
-                    return true;
-                }
+            if (SaveChanges())
+            {
+                return true;
             }
 
             return false;
@@ -70,7 +66,14 @@ namespace Web_API_.NET.Data
 
         public T FindById<T>(int id) where T : class
         {
-            return _context.Set<T>().AsNoTracking().FirstOrDefault(x => x.Equals(id));
+            var entity = _context.Set<T>().Find(id);
+            
+            if (entity != null)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+
+            return entity;
         }
 
         public T FindByName<T>(string name) where T : class

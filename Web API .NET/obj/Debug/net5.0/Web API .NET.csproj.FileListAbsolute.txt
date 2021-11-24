@@ -69,3 +69,5 @@ C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Deb
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\GuilhermeToniattoSim\Documents\Estudos\SmartSchool\Web API .NET\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

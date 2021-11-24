@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API_.NET.Data;
+using Web_API_.NET.Dtos;
 using Web_API_.NET.Models;
 
 namespace Web_API_.NET.Controllers
@@ -11,15 +14,19 @@ namespace Web_API_.NET.Controllers
     public class TeacherController : ControllerBase
     {
         private readonly IRepository _repository;
-        public TeacherController(IRepository repository)
+        private readonly IMapper _mapper;
+        public TeacherController(IRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.FindAll<Teacher>());
+            var teachers = _repository.FindAll<Teacher>();
+
+            return Ok(_mapper.Map<IEnumerable<TeacherDto>>(teachers));
         }
 
         [HttpGet("byId")]
@@ -31,7 +38,7 @@ namespace Web_API_.NET.Controllers
                 return NotFound("Professor não encontrado");
             }
 
-            return Ok(teacher);
+            return Ok(_mapper.Map<TeacherDto>(teacher));
         }
 
         [HttpGet("bySubjectId")]
@@ -55,28 +62,46 @@ namespace Web_API_.NET.Controllers
 
             var teacher = _repository.FindByName<Teacher>(name);
 
-            return Ok(teacher);
+            return Ok(_mapper.Map<TeacherDto>(teacher));
         }
 
         [HttpPost]
-        public IActionResult Post(Teacher teacher)
+        public IActionResult Post(RegisterTeacherDto teacherDto)
         {
+            var teacher = _mapper.Map<Teacher>(teacherDto);
+
             var result = _repository.Add(teacher);
 
             if (result) {
-                return Ok(teacher);
+                return Created($"/api/teacher/{teacher.Id}", _mapper.Map<TeacherDto>(teacher));
             }
 
             return BadRequest("Erro ao cadastrar professor");
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Put(Teacher teacher, int id)
+        public IActionResult Put(RegisterTeacherDto teacherDto, int id)
         {
+            var teacher = _mapper.Map<Teacher>(teacherDto);
+
             var result = _repository.Update(teacher, id);
 
             if (result) {
-                return Ok(teacher);
+                return Created($"/api/teacher/{teacher.Id}", _mapper.Map<TeacherDto>(teacher));
+            }
+
+            return BadRequest("Erro ao atualizar professor");
+        }
+
+        [HttpPatch("{id:int}")]
+        public IActionResult Patch(RegisterTeacherDto teacherDto, int id)
+        {
+            var teacher = _mapper.Map<Teacher>(teacherDto);
+
+            var result = _repository.Update(teacher, id);
+
+            if (result) {
+                return Created($"/api/teacher/{teacher.Id}", _mapper.Map<TeacherDto>(teacher));
             }
 
             return BadRequest("Erro ao atualizar professor");

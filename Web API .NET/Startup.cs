@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +29,6 @@ namespace Web_API_.NET
                 )
             );
 
-            services.AddScoped<IRepository, Repository>();
-
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
                     {
@@ -42,6 +40,9 @@ namespace Web_API_.NET
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web_API_.NET", Version = "v1" });
             });
+            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IRepository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

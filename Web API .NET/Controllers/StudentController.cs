@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API_.NET.Data;
+using Web_API_.NET.Dtos;
 using Web_API_.NET.Models;
 
 namespace Web_API_.NET.Controllers
@@ -12,16 +14,20 @@ namespace Web_API_.NET.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly IMapper _mapper;
 
-        public StudentController(IRepository repository)
+        public StudentController(IRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.FindAll<Student>());
+            var students = _repository.FindAll<Student>();
+
+            return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
         }
 
         [HttpGet("byId")]
@@ -33,7 +39,9 @@ namespace Web_API_.NET.Controllers
                 return NotFound("Aluno não encontrado");
             }
 
-            return Ok(student);
+            var alunoDto = _mapper.Map<StudentDto>(student);
+
+            return Ok(alunoDto);
         }
 
         [HttpGet("bySubjectId")]
@@ -65,28 +73,56 @@ namespace Web_API_.NET.Controllers
                 return NotFound("Aluno não encontrado");
             }
 
-            return Ok(student);
+            return Ok(_mapper.Map<TeacherDto>(student));
         }
 
         [HttpPost]
-        public IActionResult Post(Student student)
+        public IActionResult Post(RegisterStudentDto studentDto)
         {
+            var student = _mapper.Map<Student>(studentDto);
+
             var result = _repository.Add(student);
 
             if (result) {
-                return Ok(student);
+                return Created($"/api/student/{student.Id}", _mapper.Map<StudentDto>(student));
             }
 
             return BadRequest("Erro ao cadastrar aluno");
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Put(Student student, int id)
+        [HttpPut("{id>int}")]
+        public IActionResult Put(RegisterStudentDto studentDto, int id)
         {
+            var student = _repository.FindById<Student>(id);
+            if (student == null) {
+                return NotFound("Aluno não encontrado");
+            }
+
+            _mapper.Map(studentDto, student);
+
             var result = _repository.Update(student, id);
 
             if (result) {
-                return Ok(student);
+                return Created($"/api/student/{student.Id}", _mapper.Map<StudentDto>(student));
+            }
+
+            return BadRequest("Erro ao atualizar aluno");
+        }
+
+        [HttpPatch("{id:int}")]
+        public IActionResult Patch(StudentDto studentDto, int id)
+        {
+            var student = _repository.FindById<Student>(id);
+            if (student == null) {
+                return NotFound("Aluno não encontrado");
+            }
+
+            _mapper.Map(studentDto, student);
+
+            var result = _repository.Update(student, id);
+
+            if (result) {
+                return Created($"/api/student/{student.Id}", _mapper.Map<StudentDto>(student));
             }
 
             return BadRequest("Erro ao atualizar aluno");
