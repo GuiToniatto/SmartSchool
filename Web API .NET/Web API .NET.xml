@@ -16,7 +16,7 @@
             <param name="repository"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Get">
+        <member name="M:Web_API_.NET.V1.Controllers.StudentController.Get(Web_API_.NET.Helpers.PageParameters)">
             <summary>
             Método responsável por retornar todos os alunos
             </summary>
@@ -35,13 +35,6 @@
             </summary>
             <param name="subjectId"></param>
             <param name="includeTeacher"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Web_API_.NET.V1.Controllers.StudentController.GetByName(System.String)">
-            <summary>
-            Método responsável por retornar alunos que possuam o nome informado
-            </summary>
-            <param name="name"></param>
             <returns></returns>
         </member>
         <member name="M:Web_API_.NET.V1.Controllers.StudentController.Post(Web_API_.NET.V1.Dtos.RegisterStudentDto)">

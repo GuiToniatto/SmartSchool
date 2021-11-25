@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Web_API_.NET.Data;
+using Web_API_.NET.Helpers;
 using Web_API_.NET.Models;
 using Web_API_.NET.V1.Dtos;
 
@@ -34,11 +36,14 @@ namespace Web_API_.NET.V1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get([FromQuery]PageParameters pageParameters)
         {
-            var students = _repository.FindAll<Student>();
+            var students = await _repository.FindAllStudentsAsync(pageParameters);
+            var studentsResult = _mapper.Map<IEnumerable<StudentDto>>(students);
 
-            return Ok(_mapper.Map<IEnumerable<StudentDto>>(students));
+            Response.AddPagination(students.CurrentPage, students.PageSize, students.TotalCount, students.TotalPages);
+
+            return Ok(studentsResult);
         }
 
         /// <summary>
@@ -80,27 +85,6 @@ namespace Web_API_.NET.V1.Controllers
             }
 
             return Ok(students);
-        }
-
-        /// <summary>
-        /// Método responsável por retornar alunos que possuam o nome informado
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        [HttpGet("{name}")]
-        public IActionResult GetByName(string name)
-        {
-            if (name == null) {
-                return BadRequest("Nome não informado");
-            }
-            
-            var student = _repository.FindByName<Student>(name);
-
-            if (student == null) {
-                return NotFound("Aluno não encontrado");
-            }
-
-            return Ok(_mapper.Map<TeacherDto>(student));
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Web_API_.NET.Helpers;
 using Web_API_.NET.Models;
 
 namespace Web_API_.NET.Data
@@ -11,6 +13,8 @@ namespace Web_API_.NET.Data
         bool SaveChanges();
 
         IEnumerable<T> FindAll<T>() where T : class;
+        Task<PageList<Student>> FindAllStudentsAsync(PageParameters pageParameters);
+        Task<PageList<Teacher>> FindAllTeachersAsync(PageParameters pageParameters);
         T FindById<T>(int id) where T : class;
         T FindByName<T>(string name) where T : class;
 

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Web_API_.NET.Helpers;
 using Web_API_.NET.Models;
 
 namespace Web_API_.NET.Data
@@ -64,6 +66,43 @@ namespace Web_API_.NET.Data
             return _context.Set<T>().AsNoTracking().ToList();
         }
 
+        public async Task<PageList<Student>> FindAllStudentsAsync(PageParameters pageParameters)
+        {
+            var query = _context.Students.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(pageParameters.Name)) {
+                query = query.Where(s => s.Name.ToUpper().Contains(pageParameters.Name.ToUpper()) || 
+                                         s.Lastname.ToUpper().Contains(pageParameters.Name.ToUpper())
+                                    );
+            }
+
+            if (pageParameters.Registration > 0) {
+                query = query.Where(s => s.Registration == pageParameters.Registration);
+            }
+
+            if (pageParameters.Active.HasValue) {
+                query = query.Where(s => s.Active == (pageParameters.Active != 0));
+            }
+
+            // return await query.ToListAsync();
+            return await PageList<Student>.CreateAsync(query, pageParameters.PageNumber, pageParameters.PageSize);
+        }
+
+        public async Task<PageList<Teacher>> FindAllTeachersAsync(PageParameters pageParameters)
+        {
+            var query = _context.Teachers.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(pageParameters.Name)) {
+                query = query.Where(s => s.Name.ToUpper().Contains(pageParameters.Name.ToUpper()) || 
+                                         s.Lastname.ToUpper().Contains(pageParameters.Name.ToUpper())
+                                    );
+            }
+
+            
+            // return await query.ToListAsync();
+            return await PageList<Teacher>.CreateAsync(query, pageParameters.PageNumber, pageParameters.PageSize);
+        }
+
         public T FindById<T>(int id) where T : class
         {
             var entity = _context.Set<T>().Find(id);
@@ -117,5 +156,6 @@ namespace Web_API_.NET.Data
 
             return query.ToList();
         }
+
     }
 }
